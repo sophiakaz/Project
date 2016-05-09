@@ -1,13 +1,9 @@
-public class Receive(){
+package RC5;
 
-  public Receive(){
-  
-  }
-  
+public class Receive {
 
-
-
-
-
-
+	public Receive(){
+	
+	}
+	
 }
