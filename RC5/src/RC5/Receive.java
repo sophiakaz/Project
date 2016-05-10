@@ -1,9 +1,13 @@
 package RC5;
 
-public class Receive {
+public class Receive implements InterfaceE {
 
 	public Receive(){
 	
 	}
 	
+	public String encrypt(String a){
+		
+	}
+
 }
