@@ -9,9 +9,9 @@ public class Receive implements InterfaceE {
 	private byte[] key;
 	private int rounds;
 
-	public Receive(String a){
+	public Receive(String a, int round){
 		String str = a;
-		
+
 	}
 	
 	public String encrypt(String a){
