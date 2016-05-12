@@ -11,7 +11,7 @@ public class Transmit implements InterfaceE {
 		
 	}
 	
-	private byte[] GetStringFromKey(byte[] keybites){
+	private String GetStringFromKey(byte[] keybites){
 		char[] keychar = new char[keybites.length];
 		for (int i = 0; i < keybites.length; i++){
 			keychar[i] = (char)keybites[i];
@@ -21,4 +21,5 @@ public class Transmit implements InterfaceE {
 		{
 			str += keychar[i];
 		}
+		return str;
 }
