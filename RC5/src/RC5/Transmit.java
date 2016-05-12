@@ -42,12 +42,18 @@ public class Transmit implements InterfaceE {
 	}
 	*/
 	
-	public String encrypt(int A, int B){
+	public void encode(int A, int B){
 		A = B+ s[0];
 		A = B + s[1];
 		for(int i =0; i<=rounds; i++){
-			A = ((A ^ B) <<< B) + S[2 * i];
-			B = ((B ^ A) <<< A) + S[2 * i + 1];
+			A = leftRotate(A ^ B, (int)A) + s[2 * i];
+			B = leftRotate(B ^ A, (int)A) + s[2 * i + 1];
+		}
+		
+	}
+	
+	public void encrypt(){
+		for(int i =0; i<s.length; i++){
 		}
 	}
 
@@ -77,8 +83,8 @@ public class Transmit implements InterfaceE {
 		x = y = 0;
 		int top = 3 * Math.max(t, c);
 		for (int counter = 0; counter <= top; counter++){
-			x = s[i] = (s[i] + x + y) <<< 3;
-			y = l[j] = (l[j] + x + y) <<< (int)(x + y));
+			x = s[i] = leftRotate((s[i] + x + y), 3);
+			y = l[j] = leftRotate((l[j] + x + y), (int)(x + y));
 			i = (i + 1) % t;
 			j = (j + 1) % c;
 		}
