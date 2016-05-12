@@ -25,6 +25,7 @@ public class Transmit implements InterfaceE {
 		s = new int[t];
 		l = new int[password.length];
 		GenerateKey(key, rounds);
+		
 	}
 	
 	/*
@@ -52,9 +53,10 @@ public class Transmit implements InterfaceE {
 		
 	}
 	
-	public void encrypt(){
+	public byte[] encrypt(){
 		for(int i =0; i<s.length; i++){
 		}
+		return key;
 	}
 
 
