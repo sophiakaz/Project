@@ -1,13 +1,13 @@
 package RC5;
 
-public class Transmit implements InterfaceD {
+public class Transmit implements InterfaceE {
 
 	public Transmit(){
 	
 	}
 	
 		
-	public String decrypt(String a){
+	public String encrypt(String a){
 		
 	}
 	
