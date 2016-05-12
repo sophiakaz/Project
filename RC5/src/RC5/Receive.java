@@ -56,23 +56,25 @@ public class Receive implements InterfaceE {
 	}
 	
 	private void GenerateKey(byte[] key, int rounds){
+		int P32 = Integer.parseInt("b7e15163", System.Globalization.NumberStyles.HexNumber);
+		int Q32 = Integer.parseInt("9e3779b9", System.Globalization.NumberStyles.HexNumber);
 		for (int i = key.length - 1; i >= 0; i--){
-			l[i/u] =(L[i/u] << 8) + key[i];
+			l[i/u] =(l[i/u] <<< 8) + key[i];
 		}
-		s[0] = Pw;
+		s[0] = P32;
 		for (int i = 1; i <= t - 1; i++){
 			s[i] = s[i - 1] + Q32;
 		}
-		int ii, jj;
-		ii = jj = 0;
+		int i, j;
+		i = j = 0;
 		int x, y;
 		x = y = 0;
-		int v = 3 * Math.max(t, c);
-		for (int counter = 0; counter <= v; counter++){
-			x = s[ii] = leftRotate((s[ii] + x + y), 3);
-			y = l[jj] = leftRotate((l[jj] + x + y), (int)(x + y));
-			ii = (ii + 1) % t;
-			jj = (jj + 1) % c;
+		int top = 3 * Math.max(t, c);
+		for (int counter = 0; counter <= top; counter++){
+			x = s[i] = (s[i] + x + y) <<< 3;
+			y = l[j] = (l[j] + x + y) <<< (int)(x + y));
+			i = (i + 1) % t;
+			j = (j + 1) % c;
 		}
 	}	
 	
