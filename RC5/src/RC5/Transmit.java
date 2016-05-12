@@ -21,12 +21,13 @@ public class Transmit implements InterfaceE {
 		b = (int)password.length;
 		u=16;
 		c = Math.max(b, 1) / u;
-		t = (int)(2 * (rounds + 1);
+		t = (int)(2 * (rounds + 1));
 		s = new int[t];
 		l = new int[password.length];
 		GenerateKey(key, rounds);
 	}
 	
+	/*
 	public Transmit(String a, int round){
 		String str = a;
 		key = getKeyFromString(str);
@@ -39,9 +40,15 @@ public class Transmit implements InterfaceE {
 		l = new int[c];
 		GenerateKey(key, rounds);
 	}
+	*/
 	
-	public String encrypt(int a, int b){
-		
+	public String encrypt(int A, int B){
+		A = B+ s[0];
+		A = B + s[1];
+		for(int i =0; i<=rounds; i++){
+			A = ((A ^ B) <<< B) + S[2 * i];
+			B = ((B ^ A) <<< A) + S[2 * i + 1];
+		}
 	}
 
 
@@ -75,7 +82,21 @@ public class Transmit implements InterfaceE {
 			i = (i + 1) % t;
 			j = (j + 1) % c;
 		}
-	}	
+	}
+
+	private int leftRotate(int x, int offset) {
+		int t1, t2;
+		t1 = x >> (32 - offset);
+		t2 = x << offset;
+		return t1 | t2;
+	}
+
+	private int RightRotate(int x, int offset) {
+		int t1, t2;
+		t1 = x << (32 - offset);
+		t2 = x >> offset;
+		return t1 | t2;
+	}
 	
 		
 }
