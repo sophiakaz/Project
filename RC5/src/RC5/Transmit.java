@@ -16,7 +16,6 @@ public class Transmit implements InterfaceE {
 
 	
 	public Transmit(byte[] password, int round){
-		String str = a;
 		key = password;
 		rounds = round;
 		b = (int)password.length;
@@ -41,7 +40,7 @@ public class Transmit implements InterfaceE {
 		GenerateKey(key, rounds);
 	}
 	
-	public String encrypt(String a){
+	public String encrypt(int a, int b){
 		
 	}
 
@@ -56,10 +55,10 @@ public class Transmit implements InterfaceE {
 	}
 	
 	private void GenerateKey(byte[] key, int rounds){
-		int P32 = Integer.parseInt("b7e15163", System.Globalization.NumberStyles.HexNumber);
-		int Q32 = Integer.parseInt("9e3779b9", System.Globalization.NumberStyles.HexNumber);
+		int P32 = Integer.parseInt("b7e1", System.Globalization.NumberStyles.HexNumber);
+		int Q32 = Integer.parseInt("9e37", System.Globalization.NumberStyles.HexNumber);
 		for (int i = key.length - 1; i >= 0; i--){
-			l[i/u] =(l[i/u] <<< 8) + key[i];
+			l[i] =(l[i] << 8) + key[i];
 		}
 		s[0] = P32;
 		for (int i = 1; i <= t - 1; i++){
