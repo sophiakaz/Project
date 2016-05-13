@@ -72,7 +72,7 @@ public class Transmit  {
 		int P16 = Integer.parseInt("b7e1", 16);
 		int Q16 = Integer.parseInt("9e37", 16);
 		for (int i = key.length - 1; i >= 0; i--){
-			l[i] =(l[i] << 8) + key[i];
+			l[i/u] =(l[i/u] << 8) + key[i];
 		}
 		s[0] = P16;
 		for (int i = 1; i <= t - 1; i++){
@@ -93,14 +93,14 @@ public class Transmit  {
 
 	private int leftRotate(int x, int offset) {
 		int t1, t2;
-		t1 = x >> (32 - offset);
+		t1 = x >> (16 - offset);
 		t2 = x << offset;
 		return t1 | t2;
 	}
 
 	private int RightRotate(int x, int offset) {
 		int t1, t2;
-		t1 = x << (32 - offset);
+		t1 = x << (16 - offset);
 		t2 = x >> offset;
 		return t1 | t2;
 	}
