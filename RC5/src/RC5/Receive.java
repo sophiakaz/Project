@@ -12,9 +12,7 @@ public class Receive implements InterfaceD {
 	private byte[] key; // The key, considered as an array of bytes (using 0-based indexing).
 	private int rounds; // The number of rounds to use when encrypting data.
 
-	public Receive(){
-	
-	}
+	public Receive(){}
 	
 	public Receive(byte[] password, int round){
 		key = password;
@@ -45,7 +43,7 @@ public class Receive implements InterfaceD {
 	*/
 	
 	
-	public void decode(int A, int B){
+	public void decrypt(int A, int B){
 		for (int i=rounds; i>=1; i--){
 			B = (rightRotate((B - S[2 * i + 1]),A)) ^ A;
 			A = (rightRotate((A - S[2 *i]), B)) ^ B;
@@ -54,8 +52,9 @@ public class Receive implements InterfaceD {
 		A = A - S[0];
 	}
 	
-	public byte[] decrypt(){
+	public byte[] waaht(){
 		for(int i =0; i<s.length; i++){
+	 
 		}
 		return key;
 	}
