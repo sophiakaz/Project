@@ -52,7 +52,7 @@ public class Receive {
 		B = B - s[1];
 		A = A - s[0];
 		
-		return A + " " + B;
+		return A + ", " + B;
 	}
 	
 	public byte[] waaht(){
