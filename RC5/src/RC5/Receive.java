@@ -44,36 +44,17 @@ public class Receive implements InterfaceD {
 	}
 	*/
 	
-	public void encode(int A, int B){
-		A = B+ s[0];
-		A = B + s[1];
-		for(int i =0; i<=rounds; i++){
-			A = leftRotate(A ^ B, (int)A) + s[2 * i];
-			B = leftRotate(B ^ A, (int)A) + s[2 * i + 1];
-		}
-		
-	}
 	
 	public void decode(int A, int B){
-		for (int i=rounds; i>0; i--){
-			B = ((B - S[2 * i + 1]) >>> A) ^ A
+		for (int i=rounds; i>=1; i--){
+			B = (rightRotate((B - S[2 * i + 1]),A)) ^ A;
+			A = (rightRotate((A - S[2 *i]), B)) ^ B;
 		}
-		
-		//
-    A = ((A - S[2 * i]) >>> B) ^ B
-B = B - S[1]
-A = A - S[0]
-		
-		A = B+ s[0];
-		A = B + s[1];
-		for(int i =0; i<=rounds; i++){
-			A = leftRotate(A ^ B, (int)A) + s[2 * i];
-			B = leftRotate(B ^ A, (int)A) + s[2 * i + 1];
-		}
-		
+		B = B - S[1];
+		A = A - S[0];
 	}
 	
-	public byte[] encrypt(){
+	public byte[] decrypt(){
 		for(int i =0; i<s.length; i++){
 		}
 		return key;
