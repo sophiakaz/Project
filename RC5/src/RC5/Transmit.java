@@ -1,6 +1,6 @@
 package RC5;
 
-public class Transmit {
+public class Transmit  {
 
 
 	private int[] s; // The expanded list of words derived from the key, of length 2(r+1), with each element being a word
@@ -19,7 +19,8 @@ public class Transmit {
 		key = password;
 		rounds = round;
 		b = (int)password.length;
-		u=16;
+		w=16;
+		u=w/8;
 		c = Math.max(b, 1) / u;
 		t = (int)(2 * (rounds + 1));
 		s = new int[t];
@@ -43,19 +44,17 @@ public class Transmit {
 	}
 	*/
 	
-	public void encode(int A, int B){
+	public String encode(int A, int B){
 		A = A+ s[0];
 		B = B + s[1];
 		for(int i =0; i<=rounds; i++){
 			A = leftRotate(A ^ B, (int)B) + s[2 * i];
 			B = leftRotate(B ^ A, (int)A) + s[2 * i + 1];
 		}
-		
+		return A + " " + B;
 	}
 	
 	public byte[] encrypt(){
-		for(int i =0; i<s.length; i++){
-		}
 		return key;
 	}
 
@@ -70,23 +69,23 @@ public class Transmit {
 	}
 	
 	private void GenerateKey(byte[] key, int rounds){
-		int P32 = Integer.parseInt("b7e1", System.Globalization.NumberStyles.HexNumber);
-		int Q32 = Integer.parseInt("9e37", System.Globalization.NumberStyles.HexNumber);
+		int P16 = Integer.parseInt("b7e1", 16);
+		int Q16 = Integer.parseInt("9e37", 16);
 		for (int i = key.length - 1; i >= 0; i--){
 			l[i] =(l[i] << 8) + key[i];
 		}
-		s[0] = P32;
+		s[0] = P16;
 		for (int i = 1; i <= t - 1; i++){
-			s[i] = s[i - 1] + Q32;
+			s[i] = s[i - 1] + Q16;
 		}
 		int i, j;
 		i = j = 0;
-		int x, y;
-		x = y = 0;
+		int A, B;
+		A = B = 0;
 		int top = 3 * Math.max(t, c);
 		for (int counter = 0; counter <= top; counter++){
-			x = s[i] = leftRotate((s[i] + x + y), 3);
-			y = l[j] = leftRotate((l[j] + x + y), (int)(x + y));
+			A = s[i] = leftRotate((s[i] + A + B), 3);
+			B = l[j] = leftRotate((l[j] + A + B), (int)(A + B));
 			i = (i + 1) % t;
 			j = (j + 1) % c;
 		}
