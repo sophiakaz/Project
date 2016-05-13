@@ -45,7 +45,7 @@ public class Transmit implements InterfaceE {
 	
 	public void encode(int A, int B){
 		A = B+ s[0];
-		A = B + s[1];
+		B = B + s[1];
 		for(int i =0; i<=rounds; i++){
 			A = leftRotate(A ^ B, (int)A) + s[2 * i];
 			B = leftRotate(B ^ A, (int)A) + s[2 * i + 1];
