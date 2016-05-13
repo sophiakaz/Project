@@ -47,7 +47,7 @@ public class Transmit implements InterfaceE {
 		A = A+ s[0];
 		B = B + s[1];
 		for(int i =0; i<=rounds; i++){
-			A = leftRotate(A ^ B, (int)A) + s[2 * i];
+			A = leftRotate(A ^ B, (int)B) + s[2 * i];
 			B = leftRotate(B ^ A, (int)A) + s[2 * i + 1];
 		}
 		
