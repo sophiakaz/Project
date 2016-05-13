@@ -1,6 +1,6 @@
 package RC5;
 
-public class Receive implements InterfaceD {
+public class Receive {
 	
 	private int[] s; // The expanded list of words derived from the key, of length 2(r+1), with each element being a word
 	private int t; // integer 2 * (rounds + 1)
@@ -18,7 +18,8 @@ public class Receive implements InterfaceD {
 		key = password;
 		rounds = round;
 		b = (int)password.length;
-		u=16;
+		w=16;
+		u=w/8;
 		c = Math.max(b, 1) / u;
 		t = (int)(2 * (rounds + 1));
 		s = new int[t];
@@ -43,13 +44,15 @@ public class Receive implements InterfaceD {
 	*/
 	
 	
-	public void decrypt(int A, int B){
+	public String decrypt(int A, int B){
 		for (int i=rounds; i>=1; i--){
-			B = (rightRotate((B - S[2 * i + 1]),A)) ^ A;
-			A = (rightRotate((A - S[2 *i]), B)) ^ B;
+			B = (rightRotate((B - s[2 * i + 1]),A)) ^ A;
+			A = (rightRotate((A - s[2 *i]), B)) ^ B;
 		}
-		B = B - S[1];
-		A = A - S[0];
+		B = B - s[1];
+		A = A - s[0];
+		
+		return A + " " + B;
 	}
 	
 	public byte[] waaht(){
@@ -70,14 +73,14 @@ public class Receive implements InterfaceD {
 	}
 	
 	private void GenerateKey(byte[] key, int rounds){
-		int P32 = Integer.parseInt("b7e1", System.Globalization.NumberStyles.HexNumber);
-		int Q32 = Integer.parseInt("9e37", System.Globalization.NumberStyles.HexNumber);
+		int P16 = Integer.parseInt("b7e1", 16);
+		int Q16 = Integer.parseInt("9e37", 16);
 		for (int i = key.length - 1; i >= 0; i--){
 			l[i] =(l[i] << 8) + key[i];
 		}
-		s[0] = P32;
+		s[0] = P16;
 		for (int i = 1; i <= t - 1; i++){
-			s[i] = s[i - 1] + Q32;
+			s[i] = s[i - 1] + Q16;
 		}
 		int i, j;
 		i = j = 0;
@@ -99,7 +102,7 @@ public class Receive implements InterfaceD {
 		return t1 | t2;
 	}
 
-	private int RightRotate(int x, int offset) {
+	private int rightRotate(int x, int offset) {
 		int t1, t2;
 		t1 = x << (32 - offset);
 		t2 = x >> offset;
