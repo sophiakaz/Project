@@ -44,14 +44,14 @@ public class Transmit  {
 	}
 	*/
 	
-	public String encode(int A, int B){
+	public String encrypt(int A, int B){
 		A = A+ s[0];
 		B = B + s[1];
-		for(int i =0; i<=rounds; i++){
+		for(int i =1; i<=rounds; i++){
 			A = leftRotate(A ^ B, (int)B) + s[2 * i];
 			B = leftRotate(B ^ A, (int)A) + s[2 * i + 1];
 		}
-		return A + " " + B;
+		return A + ", " + B;
 	}
 	
 	public byte[] encrypt(){
