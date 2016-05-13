@@ -1,8 +1,7 @@
 package RC5;
 
-public class Transmit  {
-
-
+public class Receive {
+	
 	private int[] s; // The expanded list of words derived from the key, of length 2(r+1), with each element being a word
 	private int t; // integer 2 * (rounds + 1)
 	private int[] l; // A convenience to encapsulate K as an array of word-sized values rather than byte-sized.
@@ -12,10 +11,10 @@ public class Transmit  {
 	private int w; // The length of a word in bits (16). Typical values of this in RC5 are 16, 32, and 64. Note that a "block" is two words long(32).
 	private byte[] key; // The key, considered as an array of bytes (using 0-based indexing).
 	private int rounds; // The number of rounds to use when encrypting data.
-	
 
+	public Receive(){}
 	
-	public Transmit(byte[] password, int round){
+	public Receive(byte[] password, int round){
 		key = password;
 		rounds = round;
 		b = (int)password.length;
@@ -30,7 +29,7 @@ public class Transmit  {
 	}
 	
 	/*
-	public Transmit(String a, int round){
+	public Receive(String a, int round){
 		String str = a;
 		key = getKeyFromString(str);
 		rounds = round;
@@ -44,17 +43,22 @@ public class Transmit  {
 	}
 	*/
 	
-	public String encrypt(int A, int B){
-		A = A+ s[0];
-		B = B + s[1];
-		for(int i =1; i<=rounds; i++){
-			A = leftRotate(A ^ B, (int)B) + s[2 * i];
-			B = leftRotate(B ^ A, (int)A) + s[2 * i + 1];
+	
+	public String decrypt(int A, int B){
+		for (int i=rounds; i>=1; i--){
+			B = (rightRotate((B - s[2 * i + 1]),A)) ^ A;
+			A = (rightRotate((A - s[2 *i]), B)) ^ B;
 		}
+		B = B - s[1];
+		A = A - s[0];
+		
 		return A + ", " + B;
 	}
 	
-	public byte[] encrypt(){
+	public byte[] waaht(){
+		for(int i =0; i<s.length; i++){
+	 
+		}
 		return key;
 	}
 
@@ -80,12 +84,12 @@ public class Transmit  {
 		}
 		int i, j;
 		i = j = 0;
-		int A, B;
-		A = B = 0;
+		int x, y;
+		x = y = 0;
 		int top = 3 * Math.max(t, c);
 		for (int counter = 0; counter <= top; counter++){
-			A = s[i] = leftRotate((s[i] + A + B), 3);
-			B = l[j] = leftRotate((l[j] + A + B), (int)(A + B));
+			x = s[i] = leftRotate((s[i] + x + y), 3);
+			y = l[j] = leftRotate((l[j] + x + y), (int)(x + y));
 			i = (i + 1) % t;
 			j = (j + 1) % c;
 		}
@@ -98,12 +102,10 @@ public class Transmit  {
 		return t1 | t2;
 	}
 
-	private int RightRotate(int x, int offset) {
+	private int rightRotate(int x, int offset) {
 		int t1, t2;
 		t1 = x << (16 - offset);
 		t2 = x >> offset;
 		return t1 | t2;
 	}
-	
-		
 }
