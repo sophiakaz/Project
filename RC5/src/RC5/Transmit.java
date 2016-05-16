@@ -1,4 +1,5 @@
 package RC5;
+import java.util.Arrays;
 
 public class Transmit  {
 
@@ -20,9 +21,6 @@ public class Transmit  {
 		//c = Math.max(b, 1) / u;
 		t = (int)(2 * (rounds + 1));
 		s = new int[t];
-		//RC5_setup(password);
-		//encrypt(plainText);
-		
 	}
 	
 	public String encrypt(String plainText){
@@ -31,7 +29,7 @@ public class Transmit  {
 		int[] ct = new int[pt.length];			//ct is ciphertext
 		for (int a = ptbytes.length-1; a!=-1; a--)
 		{
-			pt[a/u] = (pt[a/u]<<8) + ptbytes[a];
+			pt[a/u] = leftRotate(pt[a/u],8) + ptbytes[a];
 		}
 		
 		for (int loop = 0; loop < pt.length - 1; loop=loop+2)
@@ -49,26 +47,28 @@ public class Transmit  {
 		byte[] ctbytes = new byte[ptbytes.length];
 		for (int a = ctbytes.length-1; a!=-1; a--)
 		{
-			ctbytes[a] = (byte)(ct[a/u] - (ct[a/u]>>8));	//REVERSED
+			ctbytes[a] = (byte)(ct[a/u] - (ct[a/u]>>>8));	//REVERSED
 		}
 		String encrypted = new String(ctbytes);
 		return encrypted;
 	}
 
 	
-	public String RC5_setup(String password){
+	public String generateKey(String password){
 		int i, j;
 		int A, B;
 		byte[] key = password.getBytes();
+		b = key.length;
 		int Pw = 0xb7e1;
 		int Qw = 0x9e37; 
-		c = (int)Math.max(1,Math.ceil(8*(key.length)/w));
+		c = (int)Math.max(1,Math.ceil(8*b/w));
 		L = new int[c];
 		L[c-1] = 0;
-		for (int z = key.length-1; z!=-1; z--)
+		for (int z = b-1; z!=-1; z--)
 		{
 			L[z/u] = (L[z/u]<<8) + key[z];
 		}
+		
 		
 		s[0] = Pw;
 		for (int a = 1; a <= t-1; a++)
@@ -86,7 +86,7 @@ public class Transmit  {
 		}
 		return Arrays.toString(s);
 	}
-	
+
 
 	private int leftRotate(int x, int offset) {
 		int t1, t2;
