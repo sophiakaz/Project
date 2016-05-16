@@ -49,7 +49,7 @@ public class Receive {
 		byte[] ptbytes = new byte[ctbytes.length];
 		for (int a = ptbytes.length-1; a!=-1; a--)
 		{
-			ptbytes[a] = (byte)(pt[a/u] - (ct[a/u]>>>8));	//REVERSED
+			ptbytes[a] = (byte)(pt[a/u] - (pt[a/u]>>>8));	//REVERSED
 		}
 		String decrypted = new String(ptbytes);
 		return decrypted;
