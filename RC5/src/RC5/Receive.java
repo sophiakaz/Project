@@ -1,5 +1,7 @@
 package RC5;
 
+import java.util.Arrays;
+
 public class Receive {
 	
 	private int[] s; // The expanded list of words derived from the key, of length 2(r+1), with each element being a word
@@ -19,9 +21,6 @@ public class Receive {
 		//c = Math.max(b, 1) / u;
 		t = (int)(2 * (rounds + 1));
 		s = new int[t];
-		//RC5_setup(password);
-		//encrypt(plainText);
-		
 	}
 
 	public String decrypt(String cipherText){
@@ -31,7 +30,7 @@ public class Receive {
 		
 		for (int a = ctbytes.length-1; a!=-1; a--)
 		{
-			ct[a/u] = (ct[a/u]<<8) + ctbytes[a];
+			ct[a/u] = leftRotate(ct[a/u],8) + ctbytes[a];
 		}
 		
 		for (int loop = ct.length - 1; loop > 0; loop=loop-2)
@@ -40,8 +39,8 @@ public class Receive {
 		int B = 0;
 		for (int i=rounds; i>=1; i--){
 				
-				B = (rightRotate((B - s[2 * i + 1]),A)) ^ A;
-				A = (rightRotate((A - s[2 *i]), B)) ^ B;
+				B = (((B - s[2 * i + 1])>>> A)) ^ A;
+				A = (((A - s[2 *i]) >>> B)) ^ B;
 			}
 			pt[loop] = B - s[loop];
 			pt[loop-1] = A - s[loop-1];
@@ -50,27 +49,27 @@ public class Receive {
 		byte[] ptbytes = new byte[ctbytes.length];
 		for (int a = ptbytes.length-1; a!=-1; a--)
 		{
-			ptbytes[a] = (byte)(pt[a/u] - (pt[a/u]>>8));	//REVERSED
+			ptbytes[a] = (byte)(pt[a/u] - (ct[a/u]>>>8));	//REVERSED
 		}
 		String decrypted = new String(ptbytes);
 		return decrypted;
 				
 	}	
 	
-	public String RC5_setup(String password){
+	public String generateKey(String password){
 		int i, j;
 		int A, B;
 		byte[] key = password.getBytes();
+		b = key.length;
 		int Pw = 0xb7e1;
 		int Qw = 0x9e37; 
-		c = (int)Math.max(1,Math.ceil(8*(key.length)/w));
+		c = (int)Math.max(1,Math.ceil(8*b/w));
 		L = new int[c];
 		L[c-1] = 0;
-		for (int z = key.length-1; z!=-1; z--)
+		for (int z = b-1; z!=-1; z--)
 		{
-			L[z/u] = (L[z/u]<<8) + key[z];
+			L[z/u] = leftRotate(L[z/u],8) + key[z];
 		}
-		
 		s[0] = Pw;
 		for (int a = 1; a <= t-1; a++)
 		{
@@ -85,7 +84,7 @@ public class Receive {
 			i = (i + 1) % t;
 			j = (j + 1) % c;
 		}
-		return Arrays.toString(s);
+		return Arrays.toString(key) + "\n" + Arrays.toString(L);
 	}
 	
 
@@ -104,3 +103,4 @@ public class Receive {
 	}
 	
 }
+
