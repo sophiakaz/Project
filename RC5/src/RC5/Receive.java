@@ -2,7 +2,7 @@ package RC5;
 
 import java.util.Arrays;
 
-public class Receive {
+public class Receive implements Interface {
 	
 	private int[] s; // The expanded list of words derived from the key, of length 2(r+1), with each element being a word
 	private int t; // integer 2 * (rounds + 1)
