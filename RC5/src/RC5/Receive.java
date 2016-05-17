@@ -8,7 +8,7 @@ public class Receive implements InterfaceE {
 	
 		
 	public String encrypt(String a){
-		
+		adf
 	}
 	
 	/*private String GetStringFromKey(byte[] keybites){
