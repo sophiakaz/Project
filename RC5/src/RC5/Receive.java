@@ -56,6 +56,37 @@ public class Receive implements Interface {
 				
 	}	
 	
+	public String encrypt(String plainText){
+		byte[] ptbytes = plainText.getBytes();
+		int[] pt = new int[(ptbytes.length)/2];   //pt is plaintext
+		int[] ct = new int[pt.length];			//ct is ciphertext
+		for (int a = ptbytes.length-1; a!=-1; a--)
+		{
+			pt[a/u] = leftRotate(pt[a/u],8) + ptbytes[a];
+		}
+		
+		for (int loop = 0; loop < pt.length - 1; loop=loop+2)
+		{
+			int A = pt[loop] + s[loop];
+			int B = pt[loop+1] + s[loop+1];
+			for(int i =1; i<=rounds; i++){
+				A = leftRotate(A ^ B, B) + s[2 * i];
+				B = leftRotate(B ^ A, A) + s[2 * i + 1];
+			}
+			ct[loop] = A;
+			ct[loop+1] = B;
+		}
+		
+		byte[] ctbytes = new byte[ptbytes.length];
+		for (int a = ctbytes.length-1; a!=-1; a--)
+		{
+			ctbytes[a] = (byte)(ct[a/u] - (ct[a/u]>>>8));	//REVERSED
+		}
+		String encrypted = new String(ctbytes);
+		return encrypted;
+	}
+	
+	
 	public String generateKey(String password){
 		int i, j;
 		int A, B;
