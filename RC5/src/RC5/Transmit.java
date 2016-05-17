@@ -53,6 +53,38 @@ public class Transmit  {
 		return encrypted;
 	}
 
+	public String decrypt(String cipherText){
+		byte[] ctbytes = cipherText.getBytes();
+		int[] ct = new int[(ctbytes.length)/2];   //pt is plaintext
+		int[] pt = new int[ct.length];			//ct is ciphertext
+		
+		for (int a = ctbytes.length-1; a!=-1; a--)
+		{
+			ct[a/u] = leftRotate(ct[a/u],8) + ctbytes[a];
+		}
+		
+		for (int loop = ct.length - 1; loop > 0; loop=loop-2)
+		{
+		int A = 0;
+		int B = 0;
+		for (int i=rounds; i>=1; i--){
+				
+				B = (((B - s[2 * i + 1])>>> A)) ^ A;
+				A = (((A - s[2 *i]) >>> B)) ^ B;
+			}
+			pt[loop] = B - s[loop];
+			pt[loop-1] = A - s[loop-1];
+		}
+		
+		byte[] ptbytes = new byte[ctbytes.length];
+		for (int a = ptbytes.length-1; a!=-1; a--)
+		{
+			ptbytes[a] = (byte)(pt[a/u] - (pt[a/u]>>>8));	//REVERSED
+		}
+		String decrypted = new String(ptbytes);
+		return decrypted;
+				
+	}
 	
 	public String generateKey(String password){
 		int i, j;
