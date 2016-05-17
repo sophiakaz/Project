@@ -2,6 +2,6 @@ package RC5;
 
 public interface InterfaceE{
 
-  public void encrypt();
+  public String encrypt(int A, int B);
 
 }
