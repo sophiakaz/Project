@@ -1,6 +1,6 @@
 package RC5;
 
-public class Transmit  {
+public class Transmit implements InterfaceE {
 
 
 	private int[] s; // The expanded list of words derived from the key, of length 2(r+1), with each element being a word
