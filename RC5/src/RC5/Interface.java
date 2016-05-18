@@ -1,7 +1,7 @@
 package RC5;
 
 public interface Interface{
-  public String encrypt(String plainText);
-  public String decrypt(String cipherText);
-  public String generateKey(String password);
+	public void setupKey(byte[] K);
+	public void encrypt(int[] pt, int[] ct);
+	public void decrypt(int[] ct, int[] pt);
 }
